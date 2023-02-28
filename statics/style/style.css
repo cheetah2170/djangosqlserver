@@ -1,0 +1,60 @@
+@font-face {
+    font-family: nast;
+    src: url('../fonts/IranNastaliq.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: titr;
+    src: url(../fonts/BTITRBD.TTF);
+}
+
+@font-face {
+    font-family: iransans;
+    src: url(../fonts/Iranian\ Sans.ttf);
+}
+
+@font-face {
+    font-family: nazanin;
+    src: url(../fonts/BNAZANIN.TTF);
+}
+
+.font1{
+    font-family: titr;
+}
+
+.font2{
+    font-family: iransans;
+}
+
+body {
+    direction: rtl;
+}
+
+#logo-img {
+    width: 80px;
+}
+
+#logo-text {
+    font-family: nast;
+}
+
+#main-page-header {
+    font-family: titr;
+}
+
+.content-page {
+    font-family: iransans;
+}
+
+#add-item, #remove-item{
+    font-size: 10px;
+}
+.form-label{
+    font-size: 15px;
+}
+#user-login,#user-logout{
+font-size: 20px;
+font-family: nazanin;
+}
