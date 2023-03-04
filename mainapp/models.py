@@ -966,3 +966,5 @@ class Regidentification(models.Model):
 class Station_Region_Relation(models.Model):
     regname=models.ForeignKey(Regidentification,on_delete=models.DO_NOTHING)
     stationname=models.ForeignKey(Station,on_delete=models.DO_NOTHING)
+    def __str__(self):
+        return self.regname
