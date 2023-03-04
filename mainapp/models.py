@@ -957,3 +957,12 @@ class Userpower(models.Model):
     class Meta:
         managed = False
         db_table = 'userpower'
+
+class Regidentification(models.Model):
+    regname= models.CharField(max_length=100)
+    def __str__(self):
+        return self.regname
+
+class Station_Region_Relation(models.Model):
+    regname=models.ForeignKey(Regidentification,on_delete=models.DO_NOTHING)
+    stationname=models.ForeignKey(Station,on_delete=models.DO_NOTHING)
