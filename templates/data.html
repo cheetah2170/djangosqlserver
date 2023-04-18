@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <table>
+            <tr>
+              <th>item</th>
+              <th>tankid</th>
+              <th>rdate</th>
+              <th>billid</th>
+              <th>size</th>
+              <th>temperature</th>
+              <th>water</th>
+              <th>status</th>
+              <th>specweight</th>
+              <th>refinery</th>
+              <th>naturallitr</th>
+              <th>litr60</th>
+              <th>hour</th>
+              <th>cyear</th>
+              <th>envtemp</th>
+            </tr>
+            {% for calc in data_list %}
+            <tr>
+                <th>clac</th>
+                <th>{{calc.tankid}}</th>
+                <th>{{calc.rdate}}</th>
+                <th>{{calc.billid}}</th>
+                <th>{{calc.size}}</th>
+                <th>{{calc.temprature}}</th>
+                <th>{{calc.water}}</th>
+                <th>{{calc.status}}</th>
+                <th>{{calc.specweight}}</th>
+                <th>{{calc.refinery}}</th>
+                <th>{{calc.naturallitr}}</th>
+                <th>{{calc.litr60}}</th>
+                <th>{{calc.hour}}</th>
+                <th>{{calc.cyear}}</th>
+                <th>{{calc.envtemp}}</th>            
+            </tr>
+            {% endfor %}
+         
+          </table>
+
+
+</body>
+</html>

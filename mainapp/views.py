@@ -1,15 +1,19 @@
 from django.shortcuts import render,redirect
-# from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from mainapp.forms import TankcalcmetricForm
-from mainapp.models import Tankcalcmetric
-from django.contrib import messages 
+from mainapp.models import Tankcalcmetric,Tank
+from django.contrib import messages
 from mainapp.calculations import natural_to_60degree_litr, cel_to_far,natural_litr
+from accounts.models import Person
+from django.contrib.auth.models import User
 
-
+@login_required(login_url='/accounts/login')
 def index(request):
+
     if request.method=='POST':
-    
+
         form= TankcalcmetricForm(request.POST)
+        print(form)
         if form.is_valid():
             rdate= form.cleaned_data['rdate'].replace('-','')
             specweight=form.cleaned_data['specweight']
@@ -45,4 +49,29 @@ def index(request):
             messages.error(request, "قبضی ثبت نشد  " )
             return redirect('mainapp:index')
     form = TankcalcmetricForm()
-    return render(request,'index.html',{'form':form})
+
+    # context={'person':person_information, 'form':form}
+    context={'form':form}
+
+    return render(request,'index.html',context)
+
+
+@login_required(login_url='/accounts/login')
+def update_data(request,id):
+    return render(request,'update_data.html')
+
+
+        # def band_update(request, id):
+        #     band = Band.objects.get(id=id)
+        #     form = BandForm(instance=band)  # prepopulate the form with an existing band
+        #     return render(request,
+        #                     'listings/band_update.html',
+        #                     {'form': form})
+
+@login_required(login_url='/accounts/login')
+def data(request):
+    data_list=Tankcalcmetric.objects.filter(calcid__gt=465050)
+    x=data_list.count()
+    print(x)
+    context={'data_list': data_list}
+    return render(request,'data.html',context)

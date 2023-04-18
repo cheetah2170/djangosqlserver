@@ -623,7 +623,7 @@ class Tanktype1(models.Model):
     tanktypeid = models.CharField(db_column='TankTypeID', max_length=10, db_collation='Arabic_BIN', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'TANKTYPE1'
 
 

@@ -10,10 +10,17 @@ class TankcalcmetricAdmin(admin.ModelAdmin):
     
 class Station_Region_RelationAdmin(admin.ModelAdmin):
     list_display=('regname','stationname')
-  
+
+class TankAdmin(admin.ModelAdmin):
+    list_display = ('tankid', 'tankname', 'stationid','prodid', 'tanktype','station_name')
+    search_fields=['tankid', 'prodid']    
+    def station_name(self,obj):
+        station_name=Station.objects.get(stationid=obj.stationid).stationname
+        return station_name
+
 admin.site.register(Tankcalcmetric,TankcalcmetricAdmin)
 admin.site.register(Station)
-admin.site.register(Tank)
+admin.site.register(Tank,TankAdmin)
 admin.site.register(Regidentification)
 admin.site.register(REG)
 admin.site.register(Station_Region_Relation,Station_Region_RelationAdmin)

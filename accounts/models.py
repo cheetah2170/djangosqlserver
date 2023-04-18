@@ -9,8 +9,7 @@ class Person(models.Model):
     person_region=models.ForeignKey(REG,on_delete=models.DO_NOTHING,null=True,default=None)
     person_station=models.ForeignKey(Station,on_delete=models.DO_NOTHING,null=True,default=None)
     more_information=models.TextField(default=None)
-    def __str__(self):
-        return self.person_name
+   
     
 
 
