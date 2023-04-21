@@ -57,8 +57,11 @@ def index(request):
 
 
 @login_required(login_url='/accounts/login')
-def update_data(request,id):
-    return render(request,'update_data.html')
+def update_data(request,calcid):
+    data_object_raw=Tankcalcmetric.objects.get(pk=calcid)
+    print(data_object_raw.calcid)
+    context={'data_object_raw':data_object_raw}
+    return render(request,'update_data.html',context)
 
 
         # def band_update(request, id):
@@ -70,8 +73,13 @@ def update_data(request,id):
 
 @login_required(login_url='/accounts/login')
 def data(request):
-    data_list=Tankcalcmetric.objects.filter(calcid__gt=465050)
+    data_list=Tankcalcmetric.objects.filter(calcid__gt=465450)
     x=data_list.count()
     print(x)
-    context={'data_list': data_list}
+    context={'data_list': reversed(data_list)}
     return render(request,'data.html',context)
+
+# def data_object_raw(request,id):
+#     data_object_raw=Tankcalcmetric.objects.get(pk=id)
+#     context={'data_object_raw':data_object_raw}
+#     return render(request,)

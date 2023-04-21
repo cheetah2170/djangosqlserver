@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Test
-</body>
-</html>
+{% extends 'base2.html' %}
+{% load static %}
+{% load mainapp_tags %}
+{%block content %}
+{% user_tank_station as uts %}
+{% include 'includes/messages.html' %}
+
+    <div>{{data_object_raw.calcid}}</div>
+    <div>{{data_object_raw.tankid}}</div>
+    <div>{{data_object_raw.status}}</div>
+    <div>{{data_object_raw.billno}}</div>
+    <div>{{data_object_raw.rdate}}</div>
+    <div>{{data_object_raw.hour}}</div>
+
+{% endblock %}

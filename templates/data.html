@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base2.html' %}
+{% load static %}
+{% load mainapp_tags %}
+{%block content %}
+{% user_tank_station as uts %}
+{% include 'includes/messages.html' %}
         <table>
             <tr>
               <th>item</th>
@@ -27,7 +24,8 @@
             </tr>
             {% for calc in data_list %}
             <tr>
-                <th>clac</th>
+              
+                <th><a href="{% url 'mainapp:update_data' calc.calcid %}">{{calc.calcid}}</a></th>
                 <th>{{calc.tankid}}</th>
                 <th>{{calc.rdate}}</th>
                 <th>{{calc.billid}}</th>
@@ -48,5 +46,4 @@
           </table>
 
 
-</body>
-</html>
+{% endblock %}

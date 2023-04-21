@@ -1,49 +1,7 @@
+{% extends 'base.html' %}
 {% load mainapp_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="{% static 'style/persian.datepicker.css' %}"/>
-     <link type="text/css" rel="stylesheet" href="{% static 'style/bootstrap.rtl.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'style/style.css'%}">
-    <link type="text/css" rel="stylesheet" href="{% static 'fonts/fontawsome/webfonts/all.css'%}">
-    <title>مرکز انتقال رفسنجان</title>
-    {% user_tank_station as uts %}
-
-</head>
-
-<body class="bg-light">
-    {% include 'includes/messages.html' %}
-
-
-    <header class=" bg-dark text-white text-center p-3 pb-0">
-        <div class="row">
-            <!-- <div class="col-md-1"></div> -->
-            <div class="col-md-3 pt-2">
-                {% if  request.user.is_authenticated %}
-                <a id="user-wel">
-                    <p id="user-login"><i class="fa-user fa-light fa-lg "></i> اقای {{request.user.get_full_name}} خوش آمدید. </p>
-                    
-                </a>
-                <!-- <span >{{person.person_region}}/{{person.person_station}}</span> -->
-                <span >{{uts.person_information.person_region}}/{{uts.person_information.person_station}}</span>
-
-                <a class="text-danger" href="{% url 'accounts:logout' %}" id="user-logout"> خروج </a>
-                {% endif %}
-
-                
-            </div>
-            <h3 class=" col-md-6 pt-3" id="main-page-header">سامانه نقل و انتقالات مواد نفتی</h3>
-            <div class="col-md-3 ">
-                <img src="{% static 'images/nioc.png'%}" id="logo-img">
-                <p id="logo-text">شرکت خطوط لوله و مخابرات نفت ایران </p>
-            </div>
-        </div>
-    </header>
-    
+{%block content %}
 
     <div class="container content-page">
         <div class="row m-2 mb-4" >
@@ -57,7 +15,12 @@
             <p>
                 {% for tank in uts.user_tank %}
                 {% if tank.tanktype is 2 %}
-                <button class="btn btn-warning m-1">{{tank}}</button>
+                        {% if tank.prodid is 2 %}<button class="btn btn-danger m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 7 %}<button class="btn btn-warning m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 5 %}<button class="btn btn-success m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 6 %}<button class="btn btn-primary m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 23 %}<button class="btn btn-info m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 13 %}<button class="btn btn-dark m-1">{{tank}}</button>{% endif %}
                 {% endif %}
                 {% endfor %}
             </p>
@@ -131,30 +94,4 @@
 
     </div>
 
-    <footer class="bg-dark text-white text-center p-1 fixed-bottom font1" id="clock">
-        ساعت
-    </footer>
-
-
- 
-</body>
-<script type="text/javascript " src="{% static 'js/bootstrap.js'%}"></script>
-<script type="text/javascript " src="{% static 'js/clock.js'%} "></script>
-<script type="text/javascript " src="{% static 'js/javascript.js'%} "></script>
-<script type="text/javascript " src="{% static 'js/jquery.js' %}"></script>
-<script type="text/javascript " src="{% static 'js/persian-date.js'%} "></script>
-<script type="text/javascript " src="{% static 'js/persian-datepicker.js'%} "></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-      
-        $('.initial-value-example').persianDatepicker({
-    initialValue: false
-});
-    });
-    
-  </script>  
-
-
-
-</html>
+{% endblock %}

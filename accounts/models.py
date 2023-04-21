@@ -8,7 +8,8 @@ class Person(models.Model):
     person_name=models.ForeignKey(User,on_delete=models.DO_NOTHING,null=True,default=None)
     person_region=models.ForeignKey(REG,on_delete=models.DO_NOTHING,null=True,default=None)
     person_station=models.ForeignKey(Station,on_delete=models.DO_NOTHING,null=True,default=None)
-    more_information=models.TextField(default=None)
+    can_change_data=models.BooleanField(default=False,null=True)
+    more_information=models.TextField(default=None,null=True)
    
     
 
