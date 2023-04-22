@@ -10,7 +10,6 @@ class Person(models.Model):
     person_station=models.ForeignKey(Station,on_delete=models.DO_NOTHING,null=True,default=None)
     can_change_data=models.BooleanField(default=False,null=True)
     more_information=models.TextField(default=None,null=True)
-   
-    
+
 
 
