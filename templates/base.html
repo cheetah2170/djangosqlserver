@@ -6,7 +6,7 @@
 <head>
    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="{% static 'style/persian.datepicker.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'style/persian-datepicker.css'%}"/>
      <link type="text/css" rel="stylesheet" href="{% static 'style/bootstrap.rtl.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'style/style.css'%}">
     <link type="text/css" rel="stylesheet" href="{% static 'fonts/fontawsome/webfonts/all.css'%}">
@@ -65,13 +65,25 @@
 <script type="text/javascript " src="{% static 'js/persian-datepicker.js'%} "></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-      
-        $('.initial-value-example').persianDatepicker({
-    initialValue: false
-});
-    });
+    $('.observer-example').persianDatepicker({
+    observer: true,
+    format: 'YYYY/MM/DD',
+    // altField: '.observer-example-alt',
+    "autoClose": true,
+    "onlySelectOnDate": true,
     
+    toolbox: {
+    "enabled": true,
+    "calendarSwitch": {
+      "enabled": false,
+      "format": "MMMM"
+    }},
+    calendar:{
+        persian: {
+            locale: 'en'
+        }
+    }
+});
   </script>  
 
 

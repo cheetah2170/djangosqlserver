@@ -15,12 +15,13 @@
             <p>
                 {% for tank in uts.user_tank %}
                 {% if tank.tanktype is 2 %}
-                        {% if tank.prodid is 2 %}<button class="btn btn-danger m-1">{{tank}}</button>{% endif %}
-                        {% if tank.prodid is 7 %}<button class="btn btn-warning m-1">{{tank}}</button>{% endif %}
+                <button class="btn btn-danger m-1">{{tank}}</button>
+                        <!-- {% if tank.prodid is 2 %}<button class="btn btn-danger m-1">{{tank}}</button>{% endif %} -->
+                        <!-- {% if tank.prodid is 7 %}<button class="btn btn-warning m-1">{{tank}}</button>{% endif %}
                         {% if tank.prodid is 5 %}<button class="btn btn-success m-1">{{tank}}</button>{% endif %}
                         {% if tank.prodid is 6 %}<button class="btn btn-primary m-1">{{tank}}</button>{% endif %}
                         {% if tank.prodid is 23 %}<button class="btn btn-info m-1">{{tank}}</button>{% endif %}
-                        {% if tank.prodid is 13 %}<button class="btn btn-dark m-1">{{tank}}</button>{% endif %}
+                        {% if tank.prodid is 13 %}<button class="btn btn-dark m-1">{{tank}}</button>{% endif %} -->
                 {% endif %}
                 {% endfor %}
             </p>
@@ -55,7 +56,7 @@
             <div class="form-row" id="form-groupx">
                     <div class="form-itemsx d-flex flex-row m-1"> 
                         <!-- <a  class="form-group col-md-1 p-3"><i class="fa-plus fa-regular plus-item"></i></a> -->
-                       <input name="rdate" type="date" class="initial-value-example form-group col-md-1" />
+                       <input name="rdate" type="" style="font-size: 15px; " class="observer-example form-group col-md-1" />
                        <input name="hour" type="time" class="form-group col-md-1" />
                         <select name="status" class="form-group col-md-1">
                                         <option value="1 ">اولیه</option>

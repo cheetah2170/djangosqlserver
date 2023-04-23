@@ -15,7 +15,7 @@ def index(request):
         form= TankcalcmetricForm(request.POST)
         print(form)
         if form.is_valid():
-            rdate= form.cleaned_data['rdate'].replace('-','')
+            rdate= form.cleaned_data['rdate'].replace('/','')
             specweight=form.cleaned_data['specweight']
             temprature=cel_to_far(form.cleaned_data['temprature'])
             envtemp=cel_to_far(form.cleaned_data['envtemp'])
