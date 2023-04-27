@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+
 class Tankcalcmetric(models.Model):
     calcid = models.AutoField(db_column='CalcID', primary_key=True)  # Field name made lowercase.
     tankid = models.IntegerField(db_column='TankID')  # Field name made lowercase.
@@ -72,7 +73,7 @@ class Tank(models.Model):
         managed = True
         db_table = 'Tank'
     def __str__(self):
-        return self.tankname
+        return self.tankname +"-"+str(self.tankid)
 
 class Calibration(models.Model):
     calibrid = models.BigAutoField(db_column='CalibrID', primary_key=True)  # Field name made lowercase.
@@ -458,10 +459,13 @@ class Nirogahvalues(models.Model):
 class Oilproducts(models.Model):
     prodid = models.AutoField(db_column='ProdID', primary_key=True)  # Field name made lowercase.
     prodname = models.CharField(db_column='ProdName', max_length=50, db_collation='Arabic_BIN', blank=True, null=True)  # Field name made lowercase.
+    def __str__(self):
+        return self.prodname
 
     class Meta:
         managed = False
         db_table = 'OilProducts'
+
 
 
 class Oiltazrigh(models.Model):
@@ -623,7 +627,7 @@ class Tanktype1(models.Model):
     tanktypeid = models.CharField(db_column='TankTypeID', max_length=10, db_collation='Arabic_BIN', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'TANKTYPE1'
 
 
@@ -638,8 +642,6 @@ class Tafkiki(models.Model):
     class Meta:
         managed = False
         db_table = 'Tafkiki'
-
-
 
 
 
@@ -975,3 +977,34 @@ class REG(models.Model):
     name=models.TextField(max_length=200)
     def __str__(self):
         return self.name
+    
+
+class Tank_calibration_excel(models.Model):
+    MetricImperial = (    ("Metric", "Metric"), ("Imperial", "Imperial"),)
+    tank_type=(
+        ("0", "خط لوله "),
+    ("2", "پخش "),
+    ("3", "الوده"),
+    ("4", "پالایشگاه"),
+    ("5", "بندر صادرات"),
+    ("6", "پتروشیمی"),
+    ("7", "نیروگاه"),
+    )
+    id= models.AutoField(primary_key=True)
+    tank_id=models.ForeignKey(Tank,on_delete=models.DO_NOTHING,null=True)
+    tank_name=models.TextField(max_length=200)
+    active=models.BooleanField(default=True)
+    Calibration_excel=models.FileField(upload_to='calibration_excel/')
+    station_name=models.ForeignKey(Station,on_delete=models.DO_NOTHING)
+    region_name=models.ForeignKey(REG,on_delete=models.DO_NOTHING)
+    metric_or_imperial=models.CharField(max_length=8,choices=MetricImperial,default='Metric')
+    Calibration_in_milimeter=models.BooleanField(default=False)
+    Calibration_data=models.BooleanField(default=True)
+    type=models.TextField(max_length=2,choices=tank_type,default=0)
+    media=models.ForeignKey(Oilproducts,on_delete=models.DO_NOTHING)
+    date_created=models.DateField(auto_now_add=True)
+    date_updated=models.DateField(auto_now=True)
+    more_information=models.TextField(null=True)
+    def __str__(self):
+        return self.tank_name
+

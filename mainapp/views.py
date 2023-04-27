@@ -13,7 +13,7 @@ def index(request):
     if request.method=='POST':
 
         form= TankcalcmetricForm(request.POST)
-        print(form)
+        # print(form)
         if form.is_valid():
             rdate= form.cleaned_data['rdate'].replace('/','')
             specweight=form.cleaned_data['specweight']
@@ -39,7 +39,7 @@ def index(request):
             naturallitr=naturallitr,
             litr60= litr60,
             hour= form.cleaned_data['hour'],
-            cyear= rdate[2:4],
+            cyear= rdate[0:4],
             envtemp=envtemp)
 
             tankclacmetric.save()
@@ -59,7 +59,7 @@ def index(request):
 @login_required(login_url='/accounts/login')
 def update_data(request,calcid):
     data_object_raw=Tankcalcmetric.objects.get(pk=calcid)
-    print(data_object_raw.calcid)
+    # print(data_object_raw.calcid)
     context={'data_object_raw':data_object_raw}
     return render(request,'update_data.html',context)
 
@@ -74,8 +74,8 @@ def update_data(request,calcid):
 @login_required(login_url='/accounts/login')
 def data(request):
     data_list=Tankcalcmetric.objects.filter(calcid__gt=465450)
-    x=data_list.count()
-    print(x)
+    # x=data_list.count()
+    # print(x)
     context={'data_list': reversed(data_list)}
     return render(request,'data.html',context)
 

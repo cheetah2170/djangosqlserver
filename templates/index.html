@@ -15,7 +15,7 @@
             <p>
                 {% for tank in uts.user_tank %}
                 {% if tank.tanktype is 2 %}
-                <button class="btn btn-danger m-1">{{tank}}</button>
+                <button class="btn btn-danger m-1" style="font-size: 10px;">{{tank.tankname}}</button>
                         <!-- {% if tank.prodid is 2 %}<button class="btn btn-danger m-1">{{tank}}</button>{% endif %} -->
                         <!-- {% if tank.prodid is 7 %}<button class="btn btn-warning m-1">{{tank}}</button>{% endif %}
                         {% if tank.prodid is 5 %}<button class="btn btn-success m-1">{{tank}}</button>{% endif %}
@@ -29,10 +29,10 @@
             
             </div> 
             
-            <div class="">
+            <!-- <div class="">
                 <button class="btn btn-primary" id="add-item">اضافه کردن </button>
                 <button class="btn btn-danger" id="remove-item">حذف کردن </button>
-            </div>
+            </div> -->
         
         </div>
        
@@ -53,7 +53,7 @@
                 <label class="form-group col-md-1">دمای محیط </label>
             </div>
 
-            <div class="form-row" id="form-groupx">
+            <div class="form-row" id="form-groupx" style="font-size: 15px;">
                     <div class="form-itemsx d-flex flex-row m-1"> 
                         <!-- <a  class="form-group col-md-1 p-3"><i class="fa-plus fa-regular plus-item"></i></a> -->
                        <input name="rdate" type="" style="font-size: 15px; " class="observer-example form-group col-md-1" />
@@ -68,7 +68,7 @@
                         <select name="tankid" class="form-group col-md-1" placeholder="شماره مخزن" >
                                     {% for tank in uts.user_tank %}
                                     {% if tank.tanktype is 2 %}
-                                    <option value="{{tank.tankid}}">{{tank}}</button>
+                                    <option value="{{tank.tankid}}">{{tank.tankname}}</button>
                                     {% endif %}
                                     {% endfor %}
                         </select>

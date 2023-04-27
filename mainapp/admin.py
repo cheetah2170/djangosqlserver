@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from mainapp.models import Tankcalcmetric, Station, Tank, Regidentification,Station_Region_Relation,REG
+from mainapp.models import Tankcalcmetric, Station, Tank, Regidentification,Station_Region_Relation,REG,Tank_calibration_excel
+from mainapp.models import Oilproducts,Tanktype1
 
   
 class TankcalcmetricAdmin(admin.ModelAdmin):
@@ -23,4 +24,6 @@ admin.site.register(Station)
 admin.site.register(Tank,TankAdmin)
 admin.site.register(Regidentification)
 admin.site.register(REG)
+admin.site.register(Oilproducts)
+admin.site.register(Tank_calibration_excel)
 admin.site.register(Station_Region_Relation,Station_Region_RelationAdmin)

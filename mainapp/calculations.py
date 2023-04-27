@@ -1,5 +1,8 @@
 import math
-from mainapp.models import Calibration,Calibration2
+from mainapp.models import Calibration,Calibration2,Tank_calibration_excel
+from openpyxl import Workbook,load_workbook
+
+
 
 def cel_to_far(temp):
     temp_int=round(float(temp))
@@ -102,20 +105,65 @@ def natural_to_60degree_litr(media_temp,env_temp,natural_litr,density,media_type
     # print("cts= "+ str(cts_factor))
     return int(v_60)
 
+def litr_excel_MM(id,size):
+    tank=Tank_calibration_excel.objects.get(tank_id=id)
+    wb=load_workbook(filename=tank.Calibration_excel)
+    wb.active
+    mm=int(size)
+    sheet =wb['Sheet1']
+    for row in sheet.iter_rows(0):            
+        if row[0].value==mm:
+            litr=row[1].value
+            break
+    return int(litr)
+    
+def litr_excel_CM(id,size):
+    tank=Tank_calibration_excel.objects.get(tank_id=id)
+    wb=load_workbook(filename=tank.Calibration_excel)
+    wb.active
+    cm=int(int(size)/10)
+    mm=int(int(size)%10)
+    litr_cm=0
+    litr_mm=0
+    sheet_cm =wb['Sheet1']
+    for row in sheet_cm.iter_rows(0):            
+        if row[0].value==cm:
+            litr_cm=row[1].value
+            break
+    sheet_mm =wb['Sheet2']
+    for row in sheet_mm.iter_rows(0):            
+        if row[0].value==mm:
+            litr_mm=row[1].value
+            break
+        else:
+            litr_mm=0
+    total_litr=int(litr_cm+litr_mm)
+    return total_litr
 
 def natural_litr(tank_id,tank_size,water):
-    if Calibration.objects.filter(tankid=tank_id).exists():
-        nat_lit= Calibration.objects.get(tankid=tank_id,size=tank_size).liters
-        if water != 0 :
-            water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
-            nat_lit= nat_lit-water_lit
-        return int(nat_lit)
-    
-    elif Calibration2.objects.filter(tankid=tank_id).exists():
-        nat_lit= Calibration2.objects.get(tankid=tank_id,size=tank_size).liters
-        if water != 0 :
-            water_lit= Calibration2.objects.get(tankid=tank_id,size=water).liters
-            nat_lit= nat_lit-water_lit
-        return int(nat_lit)
-    else:
-        return 0
+    if Tank_calibration_excel.objects.filter(tank_id=tank_id).exists():  # Tank with excel calibration
+        tank=Tank_calibration_excel.objects.get(tank_id=tank_id)
+        id=tank_id
+        size=tank_size
+        if tank.Calibration_in_milimeter == True:     
+            litr=litr_excel_MM(id,size)-litr_excel_MM(id,water)
+            return litr
+        else:
+            litr=litr_excel_CM(id,size)-litr_excel_CM(id,water)
+            return litr
+    else:                                                               #Tank without Excel calibration
+        if Calibration.objects.filter(tankid=tank_id).exists():
+            nat_lit= Calibration.objects.get(tankid=tank_id,size=tank_size).liters
+            if water != 0 :
+                water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
+                nat_lit= nat_lit-water_lit
+            return int(nat_lit)
+        
+        elif Calibration2.objects.filter(tankid=tank_id).exists():
+            nat_lit= Calibration2.objects.get(tankid=tank_id,size=tank_size).liters
+            if water != 0 :
+                water_lit= Calibration2.objects.get(tankid=tank_id,size=water).liters
+                nat_lit= nat_lit-water_lit
+            return int(nat_lit)
+        else:
+            return 0
