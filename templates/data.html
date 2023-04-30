@@ -4,46 +4,69 @@
 {%block content %}
 {% user_tank_station as uts %}
 {% include 'includes/messages.html' %}
-        <table>
-            <tr>
-              <th>item</th>
-              <th>tankid</th>
-              <th>rdate</th>
-              <th>billid</th>
-              <th>size</th>
-              <th>temperature</th>
-              <th>water</th>
-              <th>status</th>
-              <th>specweight</th>
-              <th>refinery</th>
-              <th>naturallitr</th>
-              <th>litr60</th>
-              <th>hour</th>
-              <th>cyear</th>
-              <th>envtemp</th>
-            </tr>
-            {% for calc in data_list %}
-            <tr>
-              
-                <th><a href="{% url 'mainapp:update_data' calc.calcid %}">{{calc.calcid}}</a></th>
-                <th>{{calc.tankid}}</th>
-                <th>{{calc.rdate}}</th>
-                <th>{{calc.billid}}</th>
-                <th>{{calc.size}}</th>
-                <th>{{calc.temprature}}</th>
-                <th>{{calc.water}}</th>
-                <th>{{calc.status}}</th>
-                <th>{{calc.specweight}}</th>
-                <th>{{calc.refinery}}</th>
-                <th>{{calc.naturallitr}}</th>
-                <th>{{calc.litr60}}</th>
-                <th>{{calc.hour}}</th>
-                <th>{{calc.cyear}}</th>
-                <th>{{calc.envtemp}}</th>            
-            </tr>
-            {% endfor %}
-         
+{% include 'includes/menu.html'%}
+<div class="container m-3">
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
+  <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+      <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+جدول اعداد و ارقام روزانه 
+      </div>
+      <div class="p-3">
+          <table class="table-responsive w-full rounded">
+              <thead>
+                <tr>
+                    <th class="border text-center p-1">item</th>
+                    <th class="border text-center p-1">tankid</th>
+                    <th class="border text-center p-1">rdate</th>
+                    <th class="border text-center p-1">billid</th>
+                    <th class="border text-center p-1">size</th>
+                    <th class="border text-center p-1">temperature</th>
+                    <th class="border text-center p-1">water</th>
+                    <th class="border text-center p-1">status</th>
+                    <th class="border text-center p-1">specweight</th>
+                    <th class="border text-center p-1">refinery</th>
+                    <th class="border text-center p-1" >naturallitr</th>
+                    <th class="border text-center p-1">litr60</th>
+                    <th class="border text-center p-1">hour</th>
+                    <th class="border text-center p-1">cyear</th>
+                    <th class="border text-center p-1">envtemp</th>
+                </tr>
+              </thead>
+              <tbody>
+                            {% for calc in data_list %}
+                  <tr>
+                        <td class="border text-center"><a href="{% url 'mainapp:update_data' calc.calcid %}">{{calc.calcid}}</a></td>                  
+                        <td class="border text-center">{{calc.tankid}}</td>
+                        <td class="border text-center">{{calc.rdate}}</td>
+                        <td class="border text-center">{{calc.billid}}</td>
+                        <td class="border text-center">{{calc.size}}</td>
+                        <td class="border text-center">{{calc.temprature}}</td>
+                        <td class="border text-center">{{calc.water}}</td>
+                        <td class="border text-center">{{calc.status}}</td>
+                        <td class="border text-center">{{calc.specweight}}</td>
+                        <td class="border text-center">{{calc.refinery}}</td>
+                        <td class="border text-center">{{calc.naturallitr}}</td>
+                        <td class="border text-center">{{calc.litr60}}</td>
+                        <td class="border text-center">{{calc.hour}}</td>
+                        <td class="border text-center">{{calc.cyear}}</td>
+                        <td class="border text-center">{{calc.envtemp}}</td>
+                      
+                      <td class="border px-4 py-2">
+                          <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
+                            <i class="fa-solid fa-eye"></i></a>
+                          <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-blue" href="{% url 'mainapp:update_data' calc.calcid %}">
+                            <i class="fa-solid fa-file-pen"></i></a>
+                          <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-red-500">
+                            <i class="fa-solid fa-trash-can-list"></i>
+                          </a>
+                      </td>
+                  </tr>
+                              {% endfor %}
+
+              </tbody>
           </table>
-
-
+      </div>
+  </div>
+</div>
+</div>
 {% endblock %}

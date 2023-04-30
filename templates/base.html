@@ -10,34 +10,34 @@
      <link type="text/css" rel="stylesheet" href="{% static 'style/bootstrap.rtl.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'style/style.css'%}">
     <link type="text/css" rel="stylesheet" href="{% static 'fonts/fontawsome/webfonts/all.css'%}">
-    <title>مرکز انتقال رفسنجان</title> 
+    <title>سامانه نقل و انتقالات مواد نفتی </title> 
 
 </head>
 
 <body class="bg-light">
+    <!-- {% user_tank_station as uts %} -->
     {% user_tank_station as uts %}
 
     {% include 'includes/messages.html' %}
 
-
-    <header class="bg-dark text-white text-center p-3 pb-0" >
+    <header class=" text-white text-center p-3 pb-0" style="background-color:#212A3E;">
         <div class="row">
             <!-- <div class="col-md-1"></div> -->
-            <div class="col-md-3 pt-2">
+            <div class="col-md-3 pt-1">
                 {% if  request.user.is_authenticated %}
                 <a id="user-wel">
                     <p id="user-login"><i class="fa-user fa-light fa-lg "></i> اقای {{request.user.get_full_name}} خوش آمدید. </p>
                     
                 </a>
                 <!-- <span >{{person.person_region}}/{{person.person_station}}</span> -->
-                <span >{{uts.person_information.person_region}}/{{uts.person_information.person_station}}</span>
+                <span id="user-information" >{{uts.person_information.person_region}}/{{uts.person_information.person_station}}</span>
 
                 <a class="text-danger" href="{% url 'accounts:logout' %}" id="user-logout"> خروج </a>
                 {% endif %}
 
                 
             </div>
-            <h3 class=" col-md-6 pt-3" id="main-page-header">سامانه نقل و انتقالات مواد نفتی</h3>
+            <h4 class=" col-md-6 pt-3" id="main-page-header">سامانه نقل و انتقالات مواد نفتی</h4>
             <div class="col-md-3 ">
                 <img src="{% static 'images/nioc.png'%}" id="logo-img">
                 <p id="logo-text">شرکت خطوط لوله و مخابرات نفت ایران </p>
@@ -52,7 +52,7 @@
     {%endblock%}
 
     
-    <footer class="bg-dark text-white text-center p-1 fixed-bottom font1" id="clock">
+    <footer class=" text-white text-center p-1 fixed-bottom font1" id="clock" style="background-color:#212A3E;">
         ساعت
     </footer>
 

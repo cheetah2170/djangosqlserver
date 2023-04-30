@@ -1,6 +1,7 @@
 import math
-from mainapp.models import Calibration,Calibration2,Tank_calibration_excel
+from mainapp.models import Calibration,Calibration2,Tank_calibration_excel,Fraction
 from openpyxl import Workbook,load_workbook
+from decimal import Decimal
 
 
 
@@ -140,6 +141,20 @@ def litr_excel_CM(id,size):
     total_litr=int(litr_cm+litr_mm)
     return total_litr
 
+def litr_calibration_old_db(id,size):
+    size_previous=Calibration.objects.filter(tankid=id,size__lt=size).last()
+    fraction_mm= int(size) - int(size_previous.size)
+    fraction_mm_litr=Fraction.objects.get(tankid=id,milno=Decimal(fraction_mm)).litr
+    nat_lit=int(size_previous.liters + fraction_mm_litr)
+    return nat_lit
+
+def litr_calibration2_old_db(id,size):
+    size_previous=Calibration2.objects.filter(tankid=id,size__lt=size).last()
+    fraction_mm= int(size) - int(size_previous.size)
+    fraction_mm_litr=Fraction.objects.get(tankid=id,milno=Decimal(fraction_mm)).litr
+    nat_lit=int(size_previous.liters + fraction_mm_litr)
+    return nat_lit
+
 def natural_litr(tank_id,tank_size,water):
     if Tank_calibration_excel.objects.filter(tank_id=tank_id).exists():  # Tank with excel calibration
         tank=Tank_calibration_excel.objects.get(tank_id=tank_id)
@@ -151,19 +166,42 @@ def natural_litr(tank_id,tank_size,water):
         else:
             litr=litr_excel_CM(id,size)-litr_excel_CM(id,water)
             return litr
-    else:                                                               #Tank without Excel calibration
-        if Calibration.objects.filter(tankid=tank_id).exists():
-            nat_lit= Calibration.objects.get(tankid=tank_id,size=tank_size).liters
-            if water != 0 :
-                water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
-                nat_lit= nat_lit-water_lit
-            return int(nat_lit)
-        
-        elif Calibration2.objects.filter(tankid=tank_id).exists():
-            nat_lit= Calibration2.objects.get(tankid=tank_id,size=tank_size).liters
-            if water != 0 :
-                water_lit= Calibration2.objects.get(tankid=tank_id,size=water).liters
-                nat_lit= nat_lit-water_lit
-            return int(nat_lit)
+    else:                                                                      
+        if Calibration.objects.filter(tankid=tank_id).exists(): #Tank without Excel calibration
+            if Calibration.objects.filter(tankid=tank_id,size=tank_size).exists():
+                nat_lit= Calibration.objects.get(tankid=tank_id,size=tank_size).liters
+                if water != 0 :
+                    if Calibration.objects.filter(tankid=tank_id,size=water).exist():
+                        water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
+                    else:
+                        water_lit=litr_calibration_old_db(tank_id,water)
+                    nat_lit= nat_lit-water_lit                
+                    return int(nat_lit)
+            else:
+                nat_lit=litr_calibration_old_db(tank_id,tank_size) - litr_calibration_old_db(tank_id,water)
+                return nat_lit
+
         else:
-            return 0
+            if Calibration2.objects.filter(tankid=tank_id).exists():
+                if Calibration2.objects.filter(tankid=tank_id,size=tank_size).exists():
+                    nat_lit= Calibration2.objects.get(tankid=tank_id,size=tank_size).liters
+                    if water != 0 :
+                        if Calibration2.objects.filter(tankid=tank_id,size=water).exist():
+                            water_lit= Calibration2.objects.get(tankid=tank_id,size=water).liters
+                        else:
+                            water_lit=litr_calibration2_old_db(tank_id,water)
+                        nat_lit= nat_lit-water_lit                
+                        return int(nat_lit)
+                else:
+                    nat_lit=litr_calibration2_old_db(tank_id,tank_size) - litr_calibration2_old_db(tank_id,water)
+                    return nat_lit
+            else:
+                nat_lit =0
+                return nat_lit
+
+        #     nat_lit= Calibration2.objects.get(tankid=tank_id,size=tank_size).liters
+        #     if water != 0 :
+        #         water_lit= Calibration2.objects.get(tankid=tank_id,size=water).liters
+        #         nat_lit= nat_lit-water_lit
+        #     return int(nat_lit)
+

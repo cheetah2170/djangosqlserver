@@ -4,8 +4,11 @@ from accounts.models import Person
 from django.contrib.auth.models import User
 from mainapp.models import Tank,Tanktype1
 
+
 register = template.Library()
-# This tag is used for tank information for user and main page
+# This tag is used for tank information for user and main page for tank exibition
+
+
 @register.simple_tag(takes_context=True)
 def user_tank_station(context):
     request = context['request']
