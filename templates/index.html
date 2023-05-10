@@ -152,9 +152,30 @@
                 {% endfor %}
 
                 {% for new_tank in uts.user_new_tank %}
+                {% if new_tank.type == "2" %}
                 <button class="btn btn-warning m-1">{{new_tank.tank_name}}</button>
+                {% endif %}
                 {% endfor %}
             </p>
+            <p>
+              {% for tank in uts.user_tank %}
+              {% if tank.tanktype is 0 %}
+              <button class="btn btn-success m-1" style="font-size: 10px;">{{tank.tankname}}</button>
+                      <!-- {% if tank.prodid is 2 %}<button class="btn btn-danger m-1">{{tank}}</button>{% endif %} -->
+                      <!-- {% if tank.prodid is 7 %}<button class="btn btn-warning m-1">{{tank}}</button>{% endif %}
+                      {% if tank.prodid is 5 %}<button class="btn btn-success m-1">{{tank}}</button>{% endif %}
+                      {% if tank.prodid is 6 %}<button class="btn btn-primary m-1">{{tank}}</button>{% endif %}
+                      {% if tank.prodid is 23 %}<button class="btn btn-info m-1">{{tank}}</button>{% endif %}
+                      {% if tank.prodid is 13 %}<button class="btn btn-dark m-1">{{tank}}</button>{% endif %} -->
+              {% endif %}
+              {% endfor %}
+
+              {% for new_tank in uts.user_new_tank %}
+              {% if new_tank.type == "0" %}
+              <button class="btn btn-warning m-1">{{new_tank.tank_name}}</button>
+              {% endif %}
+              {% endfor %}
+          </p>
             </div>    
             
             </div> 
