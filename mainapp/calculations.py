@@ -164,22 +164,38 @@ def natural_litr(tank_id,tank_size,water):
             litr=litr_excel_MM(id,size)-litr_excel_MM(id,water)
             return litr
         else:
-            litr=litr_excel_CM(id,size)-litr_excel_CM(id,water)
+            if water != 0: 
+                litr=litr_excel_CM(id,size)-litr_excel_CM(id,water)
+            else:
+                litr=litr=litr_excel_CM(id,size)
             return litr
     else:                                                                      
-        if Calibration.objects.filter(tankid=tank_id).exists(): #Tank without Excel calibration
+        if Calibration.objects.filter(tankid=tank_id).exists():                         #Tank without Excel calibration
             if Calibration.objects.filter(tankid=tank_id,size=tank_size).exists():
                 nat_lit= Calibration.objects.get(tankid=tank_id,size=tank_size).liters
                 if water != 0 :
-                    if Calibration.objects.filter(tankid=tank_id,size=water).exist():
+                    if Calibration.objects.filter(tankid=tank_id,size=water).exists():
                         water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
                     else:
                         water_lit=litr_calibration_old_db(tank_id,water)
                     nat_lit= nat_lit-water_lit                
                     return int(nat_lit)
+                else:
+                    water_lit=0
+                    return(nat_lit)
+
             else:
-                nat_lit=litr_calibration_old_db(tank_id,tank_size) - litr_calibration_old_db(tank_id,water)
-                return nat_lit
+                # print(tank_id,tank_size,water)
+                nat_lit=litr_calibration_old_db(tank_id,tank_size)
+                if water != 0 :
+                    if Calibration.objects.filter(tankid=tank_id,size=water).exists():
+                        water_lit= Calibration.objects.get(tankid=tank_id,size=water).liters
+                    else:
+                        water_lit=litr_calibration_old_db(tank_id,water)
+                else:
+                    water_lit=0
+                x= int(nat_lit)-int(water_lit)
+                return x
 
         else:
             if Calibration2.objects.filter(tankid=tank_id).exists():

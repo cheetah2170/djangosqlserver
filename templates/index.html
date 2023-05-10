@@ -6,12 +6,138 @@
     <div class="container content-page">
         <div class="row m-2 mb-4" >
            <div class="row"> 
-            <div class="col-md-6">   
-                <h3 class="m-3 mb-5">
-                    فرم تحویل و تحول روزانه
-                </h3>
+
+            <!-- fom ticket -->
+            <div class="card row col-md-6 mb-5 mt-2" >       
+              <div class="card-body">
+                <h5 class="card-title mb-2">فرم تحویل و تحول روزانه</h5>
+      
+                <!-- Floating Labels Form -->
+                <form role="form " method="post" class="row g-3">
+                  {% csrf_token %}
+      
+                  <div class="col-md-4 mb-3">
+                    <label for="inputDate" class="col-md-4 col-form-label">تاریخ</label>
+                    <div class="col-sm-10">
+                      <input type=""  name="rdate" class=" observer-example form-control">
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4 mb-3">
+                    <label for="inputTime" class="col-md-4 col-form-label">ساعت </label>
+                    <div class="col-sm-10">
+                      <input type="time" name="hour" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="inputNumber" class=" col-form-label">شماره قبض</label>
+                    <div class="col-sm-10">
+                      <input type="number" name="billid" class="form-control">
+                    </div>
+                  </div>
+      
+                  <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="floatingSelect" aria-label="State" name="tankid">
+                        {% for tank in uts.user_tank %}
+                        {% if tank.tanktype is 2 %}
+                        <option value="{{tank.tankid}}">{{tank.tankname}}</option>
+                        {% endif %}
+                        {% endfor %}
+      
+                        {% for new_tank in uts.user_new_tank %}
+                        {% if new_tank.type == "2" %}
+                        <option value="{{new_tank.tank_id}}">{{new_tank.tank_name}}</option> 
+                        {% endif %} 
+                        {% endfor %}
+                      </select>
+                      <label for="floatingSelect">مخزن</label>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-6">
+                    <div class="col-md-12">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" id="tanksize" placeholder="" name="size">
+                        <label for="tanksize">ارتفاع مخزن</label>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <fieldset class="row col-md-12 mb-3">
+                    <legend class="col-form-label col-md-4 pt-0">وضعیت</legend>
+                    <div class="col-md-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="1" >
+                        <label class="form-check-label" for="gridRadios1">
+                          اولیه
+                        </label>
+                      </div>
+                      <div class=" form-check">
+                        <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="2">
+                        <label class="form-check-label" for="gridRadios2">
+                            ثانویه                    </label>
+                      </div>
+                      <div class="form-check disabled">
+                        <input class="form-check-input" type="radio" name="status" id="gridRadios" value="3" >
+                        <label class="form-check-label" for="gridRadios3"> در اختیار </label>
+                      </div>
+                    </div>
+                  </fieldset>
+      
+                  <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="productselect" aria-label="State" name="refinery">
+                        <option value="Kerosine ">نفت سفید</option>
+                        <option value="Gasoil ">گازوئیل</option>
+                        <option value="Motor Spirite ">بنزین</option>
+                      </select>
+                      <label for="productselect">نوع سیال</label>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-6">
+                    <div class="col-md-12">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" id="specweight" placeholder="" name="specweight" min="720" max="860">
+                        <label for="specweight">وزن سیال </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="inputNumber" class=" col-form-label"> ارتفاع آب</label>
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" name="water" min="0" max="800">
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="inputNumber"  class=" col-form-label">دمای سیال</label>
+                    <div class="col-sm-10">
+                      <input type="number" name="temprature" min="0" max="60" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="inputNumber" class=" col-form-label">دمای محیط</label>
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" name="envtemp" min="-10" max="60">
+                    </div>
+                  </div>
+      
+      
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">ثبت</button>
+                    <button type="reset" class="btn btn-secondary">بازنشانی</button>
+                  </div>
+                </form><!-- End floating Labels Form -->
+      
+              </div>
             </div>
-            <div class="col-md-6"> 
+            
+
+            <div class="col-md-6 p-4">
+              <h5>لیست تیکت های باز </h5>
+              <P></P>
+              <h5>لیست مخازن </h5> 
             <p>
                 {% for tank in uts.user_tank %}
                 {% if tank.tanktype is 2 %}
@@ -24,6 +150,10 @@
                         {% if tank.prodid is 13 %}<button class="btn btn-dark m-1">{{tank}}</button>{% endif %} -->
                 {% endif %}
                 {% endfor %}
+
+                {% for new_tank in uts.user_new_tank %}
+                <button class="btn btn-warning m-1">{{new_tank.tank_name}}</button>
+                {% endfor %}
             </p>
             </div>    
             
@@ -35,11 +165,11 @@
             </div> -->
         
         </div>
-       
-        <form role="form " method="post">
+
+      <!-- old form -->
+        <!-- <form role="form " method="post">
             {% csrf_token %}
             <div class="form-row text-center d-flex flex-row m-1">
-                <!-- <a class="form-group col-md-1 " style=" visibility: hidden;">i-class</a> -->
                 <label class="form-group col-md-1 form-label ">تاریخ</label>
                 <label class="form-group col-md-1">ساعت</label>
                 <label class="form-group col-md-1">وضعیت </label>
@@ -52,10 +182,8 @@
                 <label class="form-group col-md-1">وزن</label>
                 <label class="form-group col-md-1">دمای محیط </label>
             </div>
-
             <div class="form-row" id="form-groupx" style="font-size: 15px;">
                     <div class="form-itemsx d-flex flex-row m-1"> 
-                        <!-- <a  class="form-group col-md-1 p-3"><i class="fa-plus fa-regular plus-item"></i></a> -->
                        <input name="rdate" type="" style="font-size: 15px; " class="observer-example form-group col-md-1" />
                        <input name="hour" type="time" class="form-group col-md-1" />
                         <select name="status" class="form-group col-md-1">
@@ -68,14 +196,19 @@
                         <select name="tankid" class="form-group col-md-1" placeholder="شماره مخزن" >
                                     {% for tank in uts.user_tank %}
                                     {% if tank.tanktype is 2 %}
-                                    <option value="{{tank.tankid}}">{{tank.tankname}}</button>
+                                    <option value="{{tank.tankid}}">{{tank.tankname}}</option>
                                     {% endif %}
                                     {% endfor %}
-                        </select>
-                        
+
+                                    {% for new_tank in uts.user_new_tank %}
+                                    {% if new_tank.type == "2" %}
+                                    <option value="{{new_tank.tank_id}}">{{new_tank.tank_name}}</option> 
+                                    {% endif %} 
+                                    {% endfor %}
+                        </select>        
                         <input name="size" type=" " class="form-group col-md-1" placeholder="اندازه مخزن" />
                         <input name="temprature" type="number" min="0" max="60"  class="form-group col-md-1" placeholder="دما" />
-                        <input name="water" type="number" max="800" class="form-group col-md-1" placeholder="آب" />
+                        <input name="water" type="number" min="0" max="800" class="form-group col-md-1" placeholder="آب" />
                         <select name="refinery" class="form-group col-md-1 ">
                                     <option value="Kerosine ">نفت سفید</option>
                                     <option value="Gasoil ">گازوئیل</option>
@@ -89,10 +222,12 @@
             <div class="d-flex justify-content-end">
             <button type="button " class="btn btn-success form-group m-4 register-button " value="ثبت نهایی " >ثبت نهایی </button>
             </div>
-        </form>
+        </form> -->
 
 
 
     </div>
+
+
 
 {% endblock %}

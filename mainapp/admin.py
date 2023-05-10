@@ -14,16 +14,28 @@ class Station_Region_RelationAdmin(admin.ModelAdmin):
 
 class TankAdmin(admin.ModelAdmin):
     list_display = ('tankid', 'tankname', 'stationid','prodid', 'tanktype','station_name')
-    search_fields=['tankid', 'prodid']    
+    search_fields=['tankid', 'prodid','stationid','tankname']
+    readonly_fields = ('tankid',)
+    
     def station_name(self,obj):
         station_name=Station.objects.get(stationid=obj.stationid).stationname
         return station_name
+    
+class StationAdmin(admin.ModelAdmin):
+    search_fields=['stationid', 'stationname']
+    readonly_fields = ('stationid',)
+    list_display = ('stationid', 'stationno', 'stationname')
+
+class OilproductsAdmin(admin.ModelAdmin):
+   
+    readonly_fields = ('prodid',)
+    list_display = ('prodid', 'prodname')
 
 admin.site.register(Tankcalcmetric,TankcalcmetricAdmin)
-admin.site.register(Station)
+admin.site.register(Station,StationAdmin)
 admin.site.register(Tank,TankAdmin)
 admin.site.register(Regidentification)
 admin.site.register(REG)
-admin.site.register(Oilproducts)
+admin.site.register(Oilproducts,OilproductsAdmin)
 admin.site.register(Tank_calibration_excel)
 admin.site.register(Station_Region_Relation,Station_Region_RelationAdmin)
