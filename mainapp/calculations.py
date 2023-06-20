@@ -1,6 +1,6 @@
 import math
 from mainapp.models import Calibration,Calibration2,Tank_calibration_excel,Fraction
-from openpyxl import Workbook,load_workbook
+from openpyxl import load_workbook
 from decimal import Decimal
 
 
@@ -96,7 +96,7 @@ def natural_to_60degree_litr(media_temp,env_temp,natural_litr,density,media_type
     # cptl_factor= cpl_factor*ctl_factor
     # rou=ctl_factor*cpl_factor*rou_star
     cts_factor= correction_expansion_steel(t_amb,t_liq)
-    v_60=v_obs*ctl_factor*cts_factor
+    v_60=int(v_obs)*ctl_factor*cts_factor
     # print("volum 60=" + str(v_60))
     # print("ctl 60=" + str(ctl_factor))
     # print("cpl= " + str(cpl_factor))

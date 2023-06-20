@@ -5,11 +5,168 @@
 {% user_tank_station as uts %}
 {% include 'includes/messages.html' %}
 
+
+
     <div>{{data_object_raw.calcid}}</div>
     <div>{{data_object_raw.tankid}}</div>
     <div>{{data_object_raw.status}}</div>
     <div>{{data_object_raw.billno}}</div>
     <div>{{data_object_raw.rdate}}</div>
     <div>{{data_object_raw.hour}}</div>
+
+    <div>
+    <div class="col-md-3"></div>
+    <div class="card col-md-6 mb-5 mt-2" >       
+        <div class="card-body">
+          <div class="card-title mb-2 col-md-6">فرم تحویل و تحول روزانه</div>
+          <div class="display-6 col-md-4">{{data_object_raw.calcid}}</div>
+
+          <!-- Floating Labels Form -->
+          <form role="form " method="post" class="row g-3" action="{% url 'mainapp:updaterecord' data_object_raw.calcid %}">
+            {% csrf_token %}
+
+            <div class="col-md-4 mb-3">
+              <label for="inputDate" class="col-md-4 col-form-label">تاریخ</label>
+              <div class="col-sm-10">
+                <input type=""  name="rdate" class="form-control" value="{{data_object_raw.rdate}}" required>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label for="inputTime" class="col-md-4 col-form-label">ساعت </label>
+              <div class="col-sm-10">
+                <input type="time" name="hour" class="form-control" value="{{data_object_raw.hour}}" required>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="inputNumber" class=" col-form-label">شماره قبض</label>
+              <div class="col-sm-10">
+                <input type="number" name="billid" class="form-control" value="{{data_object_raw.billid}}" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="floatingSelect" aria-label="State" name="tankid" required>
+                  {% for tank in uts.user_tank %}
+                  {% if tank.tanktype is 2 %}
+                  <option value="{{data_object_raw.tankid}}">{{tank.tankname}}</option>
+                  {% endif %}
+                  {% endfor %}
+
+                  {% for new_tank in uts.user_new_tank %}
+                  {% if new_tank.type == "2" %}
+                  <option value="{{new_tank.tank_id}}">{{new_tank.tank_name}}</option> 
+                  {% endif %} 
+                  {% endfor %}
+                </select>
+                <label for="floatingSelect">مخزن</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="tanksize" placeholder="" name="size" value="{{data_object_raw.size}}" required>
+                  <label for="tanksize">ارتفاع مخزن</label>
+                </div>
+              </div>
+            </div>
+
+            <fieldset class="row col-md-12 mb-3">
+              <legend class="col-form-label col-md-4 pt-0">وضعیت :   
+              {% if data_object_raw.status == 1 %}
+              {% endif %}
+              {% if data_object_raw.status == 2 %}
+              {% endif %}
+              {% if data_object_raw.status == 3 %}
+              {% endif %}
+              </legend>
+              <!-- {{data_object_raw.status}} -->
+              <div class="col-md-12">
+                <div class="form-check">
+                  {% if data_object_raw.status == 1 %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="1" checked="checked" required >
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="1" required >
+                  {% endif %}
+                  <label class="form-check-label" for="gridRadios1">
+                    اولیه
+                  </label>
+
+                </div>
+                <div class=" form-check">
+                  {% if data_object_raw.status == 2 %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="2" checked="checked" required>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="2" required>
+                  {% endif %}
+                  <label class="form-check-label" for="gridRadios2">
+                      ثانویه                    </label>
+                </div>
+
+                <div class="form-check disabled">
+                  {% if data_object_raw.status == 3 %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios" value="3" checked="checked" required>
+                  {% else %}
+                  <input class="form-check-input" type="radio" name="status" id="gridRadios" value="3" required>
+                  {% endif %}
+                  <label class="form-check-label" for="gridRadios3"> در اختیار </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="col-md-6">
+              {{data_object_raw.refinery}}
+              <div class="form-floating mb-3">
+                <select class="form-select" id="productselect" aria-label="State" name="refinery" required>
+
+                  <option value="Kerosine ">نفت سفید</option>
+                  <option value="Gasoil ">گازوئیل</option>
+                  <option value="Motor Spirite ">بنزین</option>
+                </select>
+                <label for="productselect">نوع سیال</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="specweight" placeholder="" name="specweight" min="720" max="860" value="{{data_object_raw.specweight}}" required>
+                  <label for="specweight">وزن سیال </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="inputNumber" class=" col-form-label"> ارتفاع آب</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" name="water" min="0" max="500" value="{{data_object_raw.water}}" required>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="inputNumber"  class=" col-form-label">دمای سیال</label>
+              <div class="col-sm-10">
+                <input type="number" name="temprature" min="0" max="150" class="form-control" value="{{data_object_raw.temprature}}" required>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="inputNumber" class=" col-form-label">دمای محیط</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" name="envtemp" min="0" max="150" value="{{data_object_raw.envtemp}}" required>
+              </div>
+            </div>
+
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">اصلاح</button>
+            </div>
+          </form><!-- End floating Labels Form -->
+
+        </div>
+      </div>
+    <div class="col-md-3"></div>
+</div>
+
+      
 
 {% endblock %}

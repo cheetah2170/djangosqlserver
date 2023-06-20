@@ -982,13 +982,13 @@ class REG(models.Model):
 class Tank_calibration_excel(models.Model):
     MetricImperial = (    ("Metric", "Metric"), ("Imperial", "Imperial"),)
     tank_type=(
-        ("0", "خط لوله "),
-    ("2", "پخش "),
-    ("3", "الوده"),
-    ("4", "پالایشگاه"),
-    ("5", "بندر صادرات"),
-    ("6", "پتروشیمی"),
-    ("7", "نیروگاه"),
+        (0, "خط لوله "),
+    (2, "پخش "),
+    (3, "الوده"),
+    (4, "پالایشگاه"),
+    (5, "بندر صادرات"),
+    (6, "پتروشیمی"),
+    (7, "نیروگاه"),
     )
     id= models.AutoField(primary_key=True)
     tank_id=models.ForeignKey(Tank,on_delete=models.DO_NOTHING,null=True)
@@ -1000,7 +1000,7 @@ class Tank_calibration_excel(models.Model):
     metric_or_imperial=models.CharField(max_length=8,choices=MetricImperial,default='Metric')
     Calibration_in_milimeter=models.BooleanField(default=False)
     Calibration_data=models.BooleanField(default=True)
-    type=models.TextField(max_length=2,choices=tank_type,default=0)
+    type=models.IntegerField(choices=tank_type,default=0)
     media=models.ForeignKey(Oilproducts,on_delete=models.DO_NOTHING)
     max_height=models.IntegerField(default=None,null=True)
     max_operation_height=models.IntegerField(default=None,null=True)

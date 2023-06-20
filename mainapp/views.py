@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from mainapp.forms import TankcalcmetricForm
 from mainapp.models import Tankcalcmetric,Tank
@@ -13,16 +15,14 @@ def index(request):
     if request.method=='POST':
 
         form= TankcalcmetricForm(request.POST)
-        # print(form)
         if form.is_valid():
             rdate= form.cleaned_data['rdate'].replace('/','')
             specweight=form.cleaned_data['specweight']
-            temprature=cel_to_far(form.cleaned_data['temprature'])
-            envtemp=cel_to_far(form.cleaned_data['envtemp'])
+            temprature=form.cleaned_data['temprature']
+            envtemp=form.cleaned_data['envtemp']
             tankid= form.cleaned_data['tankid']
             size= form.cleaned_data['size']
             water=int(form.cleaned_data['water'])
-
             naturallitr= natural_litr(tankid,size,water)
             litr60=natural_to_60degree_litr(temprature,envtemp,naturallitr,specweight)
 
@@ -59,27 +59,45 @@ def index(request):
 @login_required(login_url='/accounts/login')
 def update_data(request,calcid):
     data_object_raw=Tankcalcmetric.objects.get(pk=calcid)
-    # print(data_object_raw.calcid)
     context={'data_object_raw':data_object_raw}
-    return render(request,'update_data.html',context)
+    return HttpResponse(render(request,'update_data.html',context))
 
-
-        # def band_update(request, id):
-        #     band = Band.objects.get(id=id)
-        #     form = BandForm(instance=band)  # prepopulate the form with an existing band
-        #     return render(request,
-        #                     'listings/band_update.html',
-        #                     {'form': form})
 
 @login_required(login_url='/accounts/login')
 def data(request):
     data_list=Tankcalcmetric.objects.filter(calcid__gt=465450)
-    # x=data_list.count()
-    # print(x)
     context={'data_list': reversed(data_list)}
     return render(request,'data.html',context)
 
-# def data_object_raw(request,id):
-#     data_object_raw=Tankcalcmetric.objects.get(pk=id)
-#     context={'data_object_raw':data_object_raw}
-#     return render(request,)
+
+@login_required(login_url='/accounts/login')
+def updaterecord(request, calcid):
+    rdate_revised= request.POST['rdate']
+    specweight_revised=request.POST['specweight']
+    temprature_revised=request.POST['temprature']
+    envtemp_revised=request.POST['envtemp']
+    tankid_revised= request.POST['tankid']
+    size_revised= request.POST['size']
+    water_revised=int(request.POST['water'])
+    naturallitr_revised= natural_litr(tankid_revised,size_revised,water_revised)
+    litr60_revised=natural_to_60degree_litr(temprature_revised,envtemp_revised,naturallitr_revised,specweight_revised)
+
+    tankclacmetric= Tankcalcmetric(calcid=calcid)
+    tankclacmetric.tankid= tankid_revised
+    tankclacmetric.rdate= rdate_revised
+    tankclacmetric.billid= request.POST['billid']
+    tankclacmetric.size= size_revised
+    tankclacmetric.temprature= temprature_revised
+    tankclacmetric.water=water_revised
+    tankclacmetric.status=request.POST['status']
+    tankclacmetric.specweight=specweight_revised
+    tankclacmetric.refinery= request.POST['refinery']
+    tankclacmetric.naturallitr=naturallitr_revised
+    tankclacmetric.litr60= litr60_revised
+    tankclacmetric.hour= request.POST['hour']
+    tankclacmetric.cyear= rdate_revised[0:4]
+    tankclacmetric.envtemp=envtemp_revised
+    tankclacmetric.save()
+    # return HttpResponseRedirect(reverse('update_data'))
+    return redirect ('update_data')
+
