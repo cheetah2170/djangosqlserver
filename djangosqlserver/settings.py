@@ -92,7 +92,7 @@ DATABASES = {
         "NAME": "Oil-test",
         "USER": "sa",
         "PASSWORD": "1272",
-        "HOST": "DESKTOP-C3S598A",
+        "HOST": "AMIR",
         "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },

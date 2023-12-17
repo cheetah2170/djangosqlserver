@@ -3,6 +3,6 @@ Django==3.2.17
 et-xmlfile==1.1.0
 mssql-django==1.2
 openpyxl==3.1.2
-pyodbc==4.0.35
+pyodbc==5.0.1
 pytz==2022.7.1
 sqlparse==0.4.3
